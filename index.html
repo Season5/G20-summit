@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /> 
     <title>G20 summit</title>
     <link rel="stylesheet" href="css/foundation.css" />
     <link rel="stylesheet" href="css/app.css" />
@@ -13,7 +13,7 @@
    
       <nav aria-label="You are here:" role="navigation">
           <div class="begin">
-      <h2 style="color: lightskyblue;">G20 SUMMIT 2015</h2>
+      <h2 style="color: lightskyblue;"> G20 SUMMIT 2015</h2>
       </div>
       
   <ul class="breadcrumbs" style="    padding-left: 10%;">
@@ -57,26 +57,16 @@
       
       <!-- about us -->
       <div class="about">
-          <a data-open="exampleModal2">About us</a></p>
+          <h3>About us</h3>
+          <p>
+          The Group of Twenty (G20) is the premier forum for its members' international economic cooperation and decision-making. It comprises 19 countries plus the European Union. G20 leaders meet annually; additionally, during the year, Finance Ministers and Central Bank Governors meet regularly to discuss ways to strengthen the global economy, reform international financial institutions, improve financial regulation, and discuss the key economic reforms that are needed in each of the member countries. Underpinning these meetings is a year-long programme of meetings between senior officials and of working groups coordinating policy on specific issues.
+          </p>
+              <p>
+              The G20 Summit continues to focus on measures to support global economic growth, with a strong emphasis on promoting job creation and open trade. Each G20 President invites a number of guest countries each year.
+              </p>
+      
 </div>
     
-<!-- This is the first modal -->
-<div class="reveal" id="exampleModal2" data-reveal>
-  <h1>Awesome!</h1>
-  <p class="lead">I have another modal inside of me!</p>
-  <a class="button" data-open="exampleModal3">Click me for another modal!</a>
-  <button class="close-button" data-close aria-label="Close reveal" type="button">
-    <span aria-hidden="true">&times;</span>
-  </button>
-</div>
-
-<!-- This is the nested modal -->
-<div class="reveal" id="exampleModal3" data-reveal>
-  <h2>ANOTHER MODAL!!!</h2>
-  <button class="close-button" data-close aria-label="Close reveal" type="button">
-    <span aria-hidden="true">&times;</span>
-  </button>
-</div>
       
       <!-- shedule -->
       
@@ -145,13 +135,52 @@ Strengthening the System of Multilateral Treaties / Arms Trade Treaty</h5>
   </div>
 </div>
       
+      <!-- form -->
+      
+      <form>
+  <div class="row">
+    <div class="medium-6 columns">
+      <label>Name
+        <input type="text" placeholder="Name">
+      </label>
+    </div>
+    <div class="medium-6 columns">
+      <label>Email
+        <input type="text" placeholder="Email">
+      </label>
+    </div>
+  </div>
+</form>
+      
+      <label style="width:100%; padding-left:5%; padding-right:5%">
+  you message
+  <textarea placeholder="None"></textarea>
+</label>
       
       
+      <!-- gender section-->
+      
+      <div class="row">
+  <fieldset class="large-6 columns">
+      
+    <legend>Gender</legend>
+    <input type="radio" name="pokemon" value="Red" id="pokemonRed" required><label for="pokemonRed">Male</label>
+      
+    <input type="radio" name="pokemon" value="Blue" id="pokemonBlue"><label for="pokemonBlue">Female</label>
+      
+      <input type="radio" name="pokemon" value="Yellow" id="pokemonYellow"><label for="pokemonYellow">Not sure</label>
 
-      <div class="country">
-          choose a country:
-         <select>country
-              <option value="4">Afghanistan</option>
+  </fieldset>
+      
+          
+          
+          
+          <!-- Country section-->
+
+
+      <label style="width:100%">Choose you're Country
+  <select>
+    <option value="4">Afghanistan</option>
 	<option value="248">Åland Islands</option>
 	<option value="8">Albania</option>
 	<option value="12">Algeria</option>
@@ -400,9 +429,9 @@ Strengthening the System of Multilateral Treaties / Arms Trade Treaty</h5>
 	<option value="887">Yemen</option>
 	<option value="894">Zambia</option>
 	<option value="716">Zimbabwe</option>
-             
-      </select>
-      </div>
+  </select>
+</label>
+      
 
 
     <script src="js/vendor/jquery.min.js"></script>
