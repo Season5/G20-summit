@@ -20,3 +20,8 @@ select {
 #twitter {
     padding-top: 167px;
 }
+button {
+    background-color: white;
+    width: 80px;
+    height: 40px;
+}
