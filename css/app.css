@@ -1,0 +1,13 @@
+#row-one {
+    height: 683px;
+    background-color: chocolate;
+
+}
+input[type="text"] {
+    height: 30px;
+    width: 392px;
+}
+select {
+    width: 314px;
+    height: 37px;
+}
