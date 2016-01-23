@@ -7,10 +7,11 @@
 }
 
 #index p{
-    padding-top: 30%;
-    color: white;
+    padding-top: 20%;
+    color: #29C1CC;
     text-align: center;
-    font-size: 5em;
+    font-size: 4em;
+    opacity: 0.5;
 }
 
 .about{
@@ -18,7 +19,7 @@
     background-size: contain;
         
 /*    padding-bottom: 10%;*/
-    background-color: lightsteelblue;
+    background-color: #427B7F;
     opacity: 0.9;
     text-align: center;
 }
@@ -30,7 +31,6 @@
 body {
   margin: 0;
   padding: 0;
-  background: black;
 }
 
 
