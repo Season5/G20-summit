@@ -1,17 +1,18 @@
 #index{
     background: url(../img/B20%20Turkey.jpg) no-repeat;
     background-size: 100% 100%;
-    height: auto;
-    
-   
+    height: auto;  
+}
+.container{
+    background-color: #000000;opacity: 0.5;
 }
 
 #index p{
     padding-top: 20%;
-    color: #29C1CC;
+    color: #00ffff;
     text-align: center;
     font-size: 4em;
-    opacity: 0.5;
+    
 }
 
 .about{
@@ -33,7 +34,7 @@ body {
   padding: 0;
 }
 
-
+/*ball animation on hom page*/
 
 .ball {
   width: 10px;
@@ -89,6 +90,7 @@ body {
       -moz-animation: right 1s infinite ease-in-out;
       animation: right 1s infinite ease-in-out;
     }
+
 .ball:nth-child(8) {
       background: #ff005d;
       -webkit-animation: right 1s infinite ease-in-out;
