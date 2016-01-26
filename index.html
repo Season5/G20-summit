@@ -7,6 +7,7 @@
     <title>Foundation | Welcome</title>
     <link rel="stylesheet" href="css/foundation.css" />
     <link rel="stylesheet" href="css/app.css" />
+       <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
   </head>
   <body>
 <div class="row first-row expanded" id="row-one">
@@ -14,18 +15,18 @@
       <p>Register Below</p>
         <form id="form-1">
         First name: 
-        <input type="text" name="first_name">
+        <input type="text" id="first_name">
         Second name:
-        <input type="text" name="second_name" >
+        <input type="text" id="second_name" >
         Phone number:
-        <input type="text" name="number">
+        <input type="text" id="number">
         Gender:<br>
-        <input type="radio" name="gender" value="male">Male
-        <input type="radio" name="gener" value="female">Female<br>
+        <input type="radio" id="gender" value="male">Male
+        <input type="radio" id="gender" value="female">Female<br>
         Other Details
-        <input type="text"   name="other"><br>
+        <input type="text"   id="other"><br>
         What country are you from?<br>
-        <select name="country">
+        <select id="country">
         <option value="AF">Afghanistan</option>
 	<option value="AX">Åland Islands</option>
 	<option value="AL">Albania</option>
@@ -277,6 +278,8 @@
 	<option value="ZW">Zimbabwe</option>
         </select>
         <br>
+        Email address:
+        <input type="text" id="email">
        <button type="submit"  form="form-1" value="Submit" >Submit</button> 
     </form>  
     </div>
@@ -304,6 +307,10 @@
     
       
 
+     
+    <script>
+    
+    </script>
 
     <script src="js/vendor/jquery.min.js"></script>
     <script src="js/vendor/what-input.min.js"></script>
