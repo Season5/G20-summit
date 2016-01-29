@@ -180,3 +180,13 @@ body {
 select{
     width: 30%;
 }
+
+
+h3{
+    text-align: center;
+}
+
+.partners .thumbnail{
+    width: 258px;
+    height: 198px;
+}
