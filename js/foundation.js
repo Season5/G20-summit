@@ -1,7 +1,11 @@
 !function($) {
 "use strict";
 
+<<<<<<< HEAD
+var FOUNDATION_VERSION = '6.0.5';
+=======
 var FOUNDATION_VERSION = '6.1.1';
+>>>>>>> f6c263a5bcc6ec3291fe70251c1123589d95ed5b
 
 // Global Foundation object
 // This is attached to the window, or used as a module for AMD/Browserify
@@ -51,19 +55,34 @@ var Foundation = {
    * @param {Object} plugin - an instance of a plugin, usually `this` in context.
    * @fires Plugin#init
    */
+<<<<<<< HEAD
+  registerPlugin: function(plugin){
+    var pluginName = functionName(plugin.constructor).toLowerCase();
+
+    plugin.uuid = this.GetYoDigits(6, pluginName);
+
+    if(!plugin.$element.attr('data-' + pluginName)){
+      plugin.$element.attr('data-' + pluginName, plugin.uuid);
+    }
+=======
   registerPlugin: function(plugin, name){
     var pluginName = name ? hyphenate(name) : functionName(plugin.constructor).toLowerCase();
     plugin.uuid = this.GetYoDigits(6, pluginName);
 
     if(!plugin.$element.attr('data-' + pluginName)){ plugin.$element.attr('data-' + pluginName, plugin.uuid); }
     if(!plugin.$element.data('zfPlugin')){ plugin.$element.data('zfPlugin', plugin); }
+>>>>>>> f6c263a5bcc6ec3291fe70251c1123589d95ed5b
           /**
            * Fires when the plugin has initialized.
            * @event Plugin#init
            */
     plugin.$element.trigger('init.zf.' + pluginName);
 
+<<<<<<< HEAD
+    this._activePlugins[plugin.uuid] = plugin;
+=======
     this._uuids.push(plugin.uuid);
+>>>>>>> f6c263a5bcc6ec3291fe70251c1123589d95ed5b
 
     return;
   },
@@ -75,18 +94,29 @@ var Foundation = {
    * @fires Plugin#destroyed
    */
   unregisterPlugin: function(plugin){
+<<<<<<< HEAD
+    var pluginName = functionName(plugin.constructor).toLowerCase();
+
+    delete this._activePlugins[plugin.uuid];
+    plugin.$element.removeAttr('data-' + pluginName)
+=======
     var pluginName = hyphenate(functionName(plugin.$element.data('zfPlugin').constructor));
 
     this._uuids.splice(this._uuids.indexOf(plugin.uuid), 1);
     plugin.$element.removeAttr('data-' + pluginName).removeData('zfPlugin')
+>>>>>>> f6c263a5bcc6ec3291fe70251c1123589d95ed5b
           /**
            * Fires when the plugin has been destroyed.
            * @event Plugin#destroyed
            */
           .trigger('destroyed.zf.' + pluginName);
+<<<<<<< HEAD
+
+=======
     for(var prop in plugin){
       plugin[prop] = null;//clean up script to prep for garbage collection.
     }
+>>>>>>> f6c263a5bcc6ec3291fe70251c1123589d95ed5b
     return;
   },
 
@@ -96,6 +126,36 @@ var Foundation = {
    * @param {String} plugins - optional string of an individual plugin key, attained by calling `$(element).data('pluginName')`, or string of a plugin class i.e. `'dropdown'`
    * @default If no argument is passed, reflow all currently active plugins.
    */
+<<<<<<< HEAD
+  _reflow: function(plugins){
+    var actvPlugins = Object.keys(this._activePlugins);
+    var _this = this;
+
+    if(!plugins){
+      actvPlugins.forEach(function(p){
+        _this._activePlugins[p]._init();
+      });
+
+    }else if(typeof plugins === 'string'){
+      var namespace = plugins.split('-')[1];
+
+      if(namespace){
+
+        this._activePlugins[plugins]._init();
+
+      }else{
+        namespace = new RegExp(plugins, 'i');
+
+        actvPlugins.filter(function(p){
+          return namespace.test(p);
+        }).forEach(function(p){
+          _this._activePlugins[p]._init();
+        });
+      }
+    }
+
+  },
+=======
    reInit: function(plugins){
      var isJQ = plugins instanceof $;
      try{
@@ -127,6 +187,7 @@ var Foundation = {
        return plugins;
      }
    },
+>>>>>>> f6c263a5bcc6ec3291fe70251c1123589d95ed5b
 
   /**
    * returns a random base-36 uid with namespacing
@@ -171,7 +232,11 @@ var Foundation = {
         var $el = $(this),
             opts = {};
         // Don't double-dip on plugins
+<<<<<<< HEAD
+        if ($el.data('zf-plugin')) {
+=======
         if ($el.data('zfPlugin')) {
+>>>>>>> f6c263a5bcc6ec3291fe70251c1123589d95ed5b
           console.warn("Tried to initialize "+name+" on an element that already has a Foundation plugin.");
           return;
         }
@@ -183,7 +248,11 @@ var Foundation = {
           });
         }
         try{
+<<<<<<< HEAD
+          $el.data('zf-plugin', new plugin($(this), opts));
+=======
           $el.data('zfPlugin', new plugin($(this), opts));
+>>>>>>> f6c263a5bcc6ec3291fe70251c1123589d95ed5b
         }catch(er){
           console.error(er);
         }finally{
@@ -366,7 +435,11 @@ function functionName(fn) {
 function parseValue(str){
   if(/true/.test(str)) return true;
   else if(/false/.test(str)) return false;
+<<<<<<< HEAD
+  else if(!isNaN(str * 1)/* && typeof (str * 1) === "number"*/) return parseFloat(str);
+=======
   else if(!isNaN(str * 1)) return parseFloat(str);
+>>>>>>> f6c263a5bcc6ec3291fe70251c1123589d95ed5b
   return str;
 }
 // Convert PascalCase to kebab-case
@@ -569,10 +642,14 @@ function hyphenate(str) {
     40: 'ARROW_DOWN'
   };
 
+<<<<<<< HEAD
+  // constants for easier comparing Can be used like Foundation.parseKey(event) === Foundation.keys.SPACE
+=======
   /*
    * Constants for easier comparing.
    * Can be used like Foundation.parseKey(event) === Foundation.keys.SPACE
    */
+>>>>>>> f6c263a5bcc6ec3291fe70251c1123589d95ed5b
   var keys = (function(kcs) {
     var k = {};
     for (var kc in kcs) k[kcs[kc]] = kcs[kc];
@@ -603,11 +680,19 @@ function hyphenate(str) {
   /**
    * Handles the given (keyboard) event
    * @param {Event} event - the event generated by the event handler
+<<<<<<< HEAD
+   * @param {Object} component - Foundation component, e.g. Slider or Reveal
+   * @param {Objects} functions - collection of functions that are to be executed
+   */
+  var handleKey = function(event, component, functions) {
+    var commandList = commands[Foundation.getFnName(component)],
+=======
    * @param {String} component - Foundation component's name, e.g. Slider or Reveal
    * @param {Objects} functions - collection of functions that are to be executed
    */
   var handleKey = function(event, component, functions) {
     var commandList = commands[component],
+>>>>>>> f6c263a5bcc6ec3291fe70251c1123589d95ed5b
       keyCode = parseKey(event),
       cmds,
       command,
@@ -625,6 +710,16 @@ function hyphenate(str) {
 
 
     fn = functions[command];
+<<<<<<< HEAD
+    if (fn && typeof fn === 'function') { // execute function with context of the component if exists
+        fn.apply(component);
+        if (functions.handled || typeof functions.handled === 'function') { // execute function when event was handled
+            functions.handled.apply(component);
+        }
+    } else {
+        if (functions.unhandled || typeof functions.unhandled === 'function') { // execute function when event was not handled
+            functions.unhandled.apply(component);
+=======
     if (fn && typeof fn === 'function') { // execute function  if exists
         fn.apply();
         if (functions.handled || typeof functions.handled === 'function') { // execute function when event was handled
@@ -633,6 +728,7 @@ function hyphenate(str) {
     } else {
         if (functions.unhandled || typeof functions.unhandled === 'function') { // execute function when event was not handled
             functions.unhandled.apply();
+>>>>>>> f6c263a5bcc6ec3291fe70251c1123589d95ed5b
         }
     }
   };
@@ -872,7 +968,11 @@ function parseStyleToObject(str) {
   return styleObject;
 }
 
+<<<<<<< HEAD
+}(jQuery, Foundation)
+=======
 }(jQuery, Foundation);
+>>>>>>> f6c263a5bcc6ec3291fe70251c1123589d95ed5b
 
 /**
  * Motion module.
@@ -1117,7 +1217,11 @@ Foundation.Motion = Motion;
   $.spotSwipe = {
     version: '1.0.0',
     enabled: 'ontouchstart' in document.documentElement,
+<<<<<<< HEAD
+    preventDefault: true,
+=======
     preventDefault: false,
+>>>>>>> f6c263a5bcc6ec3291fe70251c1123589d95ed5b
     moveThreshold: 75,
     timeThreshold: 200
   };
@@ -1147,11 +1251,18 @@ Foundation.Motion = Motion;
       if(Math.abs(dx) >= $.spotSwipe.moveThreshold && elapsedTime <= $.spotSwipe.timeThreshold) {
         dir = dx > 0 ? 'left' : 'right';
       }
+<<<<<<< HEAD
+      else if(Math.abs(dy) >= $.spotSwipe.moveThreshold && elapsedTime <= $.spotSwipe.timeThreshold) {
+        dir = dy > 0 ? 'down' : 'up';
+      }
+      if(dir) {
+=======
       // else if(Math.abs(dy) >= $.spotSwipe.moveThreshold && elapsedTime <= $.spotSwipe.timeThreshold) {
       //   dir = dy > 0 ? 'down' : 'up';
       // }
       if(dir) {
         e.preventDefault();
+>>>>>>> f6c263a5bcc6ec3291fe70251c1123589d95ed5b
         onTouchEnd.call(this);
         $(this).trigger('swipe', dir).trigger('swipe' + dir);
       }
@@ -1684,16 +1795,34 @@ Foundation.Motion = Motion;
   function Abide(element, options) {
     this.$element = element;
     this.options  = $.extend({}, Abide.defaults, this.$element.data(), options);
+<<<<<<< HEAD
+    this.$window  = $(window);
+    this.name     = 'Abide';
+    this.attr     = 'data-abide';
+
+    this._init();
+    this._events();
+
+    Foundation.registerPlugin(this);
+=======
 
     this._init();
 
     Foundation.registerPlugin(this, 'Abide');
+>>>>>>> f6c263a5bcc6ec3291fe70251c1123589d95ed5b
   }
 
   /**
    * Default settings for plugin
    */
   Abide.defaults = {
+<<<<<<< HEAD
+    validateOn: 'fieldChange', // options: fieldChange, manual, submit
+    labelErrorClass: 'is-invalid-label',
+    inputErrorClass: 'is-invalid-input',
+    formErrorSelector: '.form-error',
+    formErrorClass: 'is-visible',
+=======
     /**
      * The default event to validate inputs. Checkboxes and radios validate immediately.
      * Remove or change this value for manual validation.
@@ -1732,6 +1861,7 @@ Foundation.Motion = Motion;
      */
     liveValidate: false,
 
+>>>>>>> f6c263a5bcc6ec3291fe70251c1123589d95ed5b
     patterns: {
       alpha : /^[a-zA-Z]+$/,
       alpha_numeric : /^[a-zA-Z0-9]+$/,
@@ -1763,6 +1893,15 @@ Foundation.Motion = Motion;
       // #FFF or #FFFFFF
       color : /^#?([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$/
     },
+<<<<<<< HEAD
+    validators: {
+      equalTo: function (el, required, parent) {
+        var from  = document.getElementById(el.getAttribute(this.add_namespace('data-equalto'))).value,
+            to    = el.value,
+            valid = (from === to);
+
+        return valid;
+=======
     /**
      * Optional validation functions to be used. `equalTo` being the only default included function.
      * Functions should return only a boolean if the input is valid or not. Functions are given the following arguments:
@@ -1774,6 +1913,7 @@ Foundation.Motion = Motion;
     validators: {
       equalTo: function (el, required, parent) {
         return $('#' + el.attr('data-equalto')).val() === el.val();
+>>>>>>> f6c263a5bcc6ec3291fe70251c1123589d95ed5b
       }
     }
   };
@@ -1783,10 +1923,14 @@ Foundation.Motion = Motion;
    * Initializes the Abide plugin and calls functions to get Abide functioning on load.
    * @private
    */
+<<<<<<< HEAD
+  Abide.prototype._init = function() {
+=======
   Abide.prototype._init = function(){
     this.$inputs = this.$element.find('input, textarea, select').not('[data-abide-ignore]');
 
     this._events();
+>>>>>>> f6c263a5bcc6ec3291fe70251c1123589d95ed5b
   };
 
   /**
@@ -1794,6 +1938,36 @@ Foundation.Motion = Motion;
    * @private
    */
   Abide.prototype._events = function() {
+<<<<<<< HEAD
+    var self = this;
+    this.$element
+      .off('.abide')
+      .on('reset.fndtn.abide', function(e) {
+        self.resetForm($(this));
+      })
+      .on('submit.fndtn.abide', function(e) {
+        e.preventDefault();
+        self.validateForm(self.$element);
+      })
+      .find('input, textarea, select')
+        .off('.abide')
+        .on('blur.fndtn.abide change.fndtn.abide', function (e) {
+          if (self.options.validateOn === 'fieldChange') {
+            self.validateInput($(e.target), self.$element);
+          }
+          // self.validateForm(self.$element);
+        })
+        .on('keydown.fndtn.abide', function (e) {
+          // if (settings.live_validate === true && e.which != 9) {
+          //   clearTimeout(self.timer);
+          //   self.timer = setTimeout(function () {
+          //     self.validate([this], e);
+          //   }.bind(this), settings.timeout);
+          // }
+          // self.validateForm(self.$element);
+        });
+
+=======
     var _this = this;
 
     this.$element.off('.abide')
@@ -1817,13 +1991,18 @@ Foundation.Motion = Motion;
             _this.validateInput($(this));
           });
     }
+>>>>>>> f6c263a5bcc6ec3291fe70251c1123589d95ed5b
   },
   /**
    * Calls necessary functions to update Abide upon DOM change
    * @private
    */
   Abide.prototype._reflow = function() {
+<<<<<<< HEAD
+    var self = this;
+=======
     this._init();
+>>>>>>> f6c263a5bcc6ec3291fe70251c1123589d95ed5b
   };
   /**
    * Checks whether or not a form element has the required attribute and if it's checked or not
@@ -1831,6 +2010,92 @@ Foundation.Motion = Motion;
    * @returns {Boolean} Boolean value depends on whether or not attribute is checked or empty
    */
   Abide.prototype.requiredCheck = function($el) {
+<<<<<<< HEAD
+    switch ($el[0].type) {
+      case 'text':
+        if ($el.attr('required') && !$el.val()) {
+          // requirement check does not pass
+          return false;
+        } else {
+          return true;
+        }
+        break;
+      case 'checkbox':
+        if ($el.attr('required') && !$el.is(':checked')) {
+          return false;
+        } else {
+          return true;
+        }
+        break;
+      case 'radio':
+        if ($el.attr('required') && !$el.is(':checked')) {
+          return false;
+        } else {
+          return true;
+        }
+        break;
+      default:
+        if ($el.attr('required') && (!$el.val() || !$el.val().length || $el.is(':empty'))) {
+          return false;
+        } else {
+          return true;
+        }
+    }
+  };
+  /**
+   * Checks whether or not a form element has the required attribute and if it's checked or not
+   * @param {Object} element - jQuery object to check for required attribute
+   * @returns {Boolean} Boolean value depends on whether or not attribute is checked or empty
+   */
+  Abide.prototype.findLabel = function($el) {
+    if ($el.next('label').length) {
+      return $el.next('label');
+    }
+    else {
+      return $el.closest('label');
+    }
+  };
+  /**
+   * Adds the CSS error class as specified by the Abide settings to the label, input, and the form
+   * @param {Object} element - jQuery object to add the class to
+   */
+  Abide.prototype.addErrorClasses = function($el) {
+    var self = this,
+        $label = self.findLabel($el),
+        $formError = $el.next(self.options.formErrorSelector) || $el.find(self.options.formErrorSelector);
+
+    // label
+    if ($label) {
+      $label.addClass(self.options.labelErrorClass);
+    }
+    // form error
+    if ($formError) {
+      $formError.addClass(self.options.formErrorClass);
+    }
+    // input
+    $el.addClass(self.options.inputErrorClass);
+  };
+  /**
+   * Removes CSS error class as specified by the Abide settings from the label, input, and the form
+   * @param {Object} element - jQuery object to remove the class from
+   */
+  Abide.prototype.removeErrorClasses = function($el) {
+    var self = this,
+        $label = self.findLabel($el),
+        $formError = $el.next(self.options.formErrorSelector) || $el.find(self.options.formErrorSelector);
+    // label
+    if ($label && $label.hasClass(self.options.labelErrorClass)) {
+      $label.removeClass(self.options.labelErrorClass);
+    }
+    // form error
+    if ($formError && $formError.hasClass(self.options.formErrorClass)) {
+      $formError.removeClass(self.options.formErrorClass);
+    }
+    // input
+    if ($el.hasClass(self.options.inputErrorClass)) {
+      $el.removeClass(self.options.inputErrorClass);
+    }
+=======
     if(!$el.attr('required')) return true;
     var isGood = true;
     switch ($el[0].type) {
@@ -1915,12 +2180,175 @@ Foundation.Motion = Motion;
       $formError.removeClass(this.options.formErrorClass);
     }
     $el.removeClass(this.options.inputErrorClass).removeAttr('data-invalid');
+>>>>>>> f6c263a5bcc6ec3291fe70251c1123589d95ed5b
   };
   /**
    * Goes through a form to find inputs and proceeds to validate them in ways specific to their type
    * @fires Abide#invalid
    * @fires Abide#valid
    * @param {Object} element - jQuery object to validate, should be an HTML input
+<<<<<<< HEAD
+   * @param {Object} form - jQuery object of the entire form to find the various input elements
+   */
+  Abide.prototype.validateInput = function($el, $form) {
+    var self = this,
+        textInput = $form.find('input[type="text"]'),
+        checkInput = $form.find('input[type="checkbox"]'),
+        label,
+        radioGroupName;
+
+    if ($el[0].type === 'text') {
+      if (!self.requiredCheck($el) || !self.validateText($el)) {
+        self.addErrorClasses($el);
+        $el.trigger('invalid.fndtn.abide', $el[0]);
+      }
+      else {
+        self.removeErrorClasses($el);
+        $el.trigger('valid.fndtn.abide', $el[0]);
+      }
+    }
+    else if ($el[0].type === 'radio') {
+      radioGroupName = $el.attr('name');
+      label = $el.siblings('label');
+
+      if (self.validateRadio(radioGroupName)) {
+        $(label).each(function() {
+          if ($(this).hasClass(self.options.labelErrorClass)) {
+            $(this).removeClass(self.options.labelErrorClass);
+          }
+        });
+        $el.trigger('valid.fndtn.abide', $el[0]);
+      }
+      else {
+        $(label).each(function() {
+          $(this).addClass(self.options.labelErrorClass);
+        });
+        $el.trigger('invalid.fndtn.abide', $el[0]);
+      };
+    }
+    else if ($el[0].type === 'checkbox') {
+      if (!self.requiredCheck($el)) {
+        self.addErrorClasses($el);
+        $el.trigger('invalid.fndtn.abide', $el[0]);
+      }
+      else {
+        self.removeErrorClasses($el);
+        $el.trigger('valid.fndtn.abide', $el[0]);
+      }
+    }
+    else {
+      if (!self.requiredCheck($el) || !self.validateText($el)) {
+        self.addErrorClasses($el);
+        $el.trigger('invalid.fndtn.abide', $el[0]);
+      }
+      else {
+        self.removeErrorClasses($el);
+        $el.trigger('valid.fndtn.abide', $el[0]);
+      }
+    }
+  };
+  /**
+   * Goes through a form and if there are any invalid inputs, it will display the form error element
+   * @param {Object} element - jQuery object to validate, should be a form HTML element
+   */
+  Abide.prototype.validateForm = function($form) {
+    var self = this,
+        inputs = $form.find('input'),
+        inputCount = $form.find('input').length,
+        counter = 0;
+
+    while (counter < inputCount) {
+      self.validateInput($(inputs[counter]), $form);
+      counter++;
+    }
+
+    // what are all the things that can go wrong with a form?
+    if ($form.find('.form-error.is-visible').length || $form.find('.is-invalid-label').length) {
+      $form.find('[data-abide-error]').css('display', 'block');
+    }
+    else {
+      $form.find('[data-abide-error]').css('display', 'none');
+    }
+  };
+  /**
+   * Determines whether or a not a text input is valid based on the patterns specified in the attribute
+   * @param {Object} element - jQuery object to validate, should be a text input HTML element
+   * @returns {Boolean} Boolean value depends on whether or not the input value matches the pattern specified
+   */
+  Abide.prototype.validateText = function($el) {
+    var self = this,
+        valid = false,
+        patternLib = this.options.patterns,
+        inputText = $($el).val(),
+        // maybe have a different way of parsing this bc people might use type
+        pattern = $($el).attr('pattern');
+
+    // if there's no value, then return true
+    // since required check has already been done
+    if (inputText.length === 0) {
+      return true;
+    }
+    else {
+      if (inputText.match(patternLib[pattern])) {
+        return true;
+      }
+      else {
+        return false;
+      }
+    }
+  };
+  /**
+   * Determines whether or a not a radio input is valid based on whether or not it is required and selected
+   * @param {String} group - A string that specifies the name of a radio button group
+   * @returns {Boolean} Boolean value depends on whether or not at least one radio input has been selected (if it's required)
+   */
+  Abide.prototype.validateRadio = function(group) {
+    var self = this,
+        labels = $(':radio[name="' + group + '"]').siblings('label'),
+        counter = 0;
+    // go through each radio button
+    $(':radio[name="' + group + '"]').each(function() {
+      // put them through the required checkpoint
+      if (!self.requiredCheck($(this))) {
+        // if at least one doesn't pass, add a tally to the counter
+        counter++;
+      }
+      // if at least one is checked
+      // reset the counter
+      if ($(this).is(':checked')) {
+        counter = 0;
+      }
+    });
+
+    if (counter > 0) {
+      return false;
+    }
+    else {
+      return true;
+    }
+  };
+  Abide.prototype.matchValidation = function(val, validation) {
+
+  };
+  /**
+   * Resets form inputs and styles
+   * @param {Object} $form - A jQuery object that should be an HTML form element
+   */
+  Abide.prototype.resetForm = function($form) {
+    var self = this;
+    var invalidAttr = 'data-invalid';
+    // remove data attributes
+    $('[' + self.invalidAttr + ']', $form).removeAttr(invalidAttr);
+    // remove styles
+    $('.' + self.options.labelErrorClass, $form).not('small').removeClass(self.options.labelErrorClass);
+    $('.' + self.options.inputErrorClass, $form).not('small').removeClass(self.options.inputErrorClass);
+    $('.form-error.is-visible').removeClass('is-visible');
+    $form.find('[data-abide-error]').css('display', 'none');
+    $(':input', $form).not(':button, :submit, :reset, :hidden, [data-abide-ignore]').val('').removeAttr(invalidAttr);
+  };
+  Abide.prototype.destroy = function(){
+    //TODO this...
+=======
    * @returns {Boolean} goodToGo - If the input is valid or not.
    */
   Abide.prototype.validateInput = function($el){
@@ -2076,6 +2504,7 @@ Foundation.Motion = Motion;
         });
 
     Foundation.unregisterPlugin(this);
+>>>>>>> f6c263a5bcc6ec3291fe70251c1123589d95ed5b
   };
 
   Foundation.plugin(Abide, 'Abide');
@@ -2111,7 +2540,11 @@ Foundation.Motion = Motion;
 
     this._init();
 
+<<<<<<< HEAD
+    Foundation.registerPlugin(this);
+=======
     Foundation.registerPlugin(this, 'Accordion');
+>>>>>>> f6c263a5bcc6ec3291fe70251c1123589d95ed5b
     Foundation.Keyboard.register('Accordion', {
       'ENTER': 'toggle',
       'SPACE': 'toggle',
@@ -2148,9 +2581,12 @@ Foundation.Motion = Motion;
   Accordion.prototype._init = function() {
     this.$element.attr('role', 'tablist');
     this.$tabs = this.$element.children('li');
+<<<<<<< HEAD
+=======
     if (this.$tabs.length == 0) {
       this.$tabs = this.$element.children('[data-accordion-item]');
     }
+>>>>>>> f6c263a5bcc6ec3291fe70251c1123589d95ed5b
     this.$tabs.each(function(idx, el){
 
       var $el = $(el),
@@ -2198,7 +2634,11 @@ Foundation.Motion = Motion;
             _this.down($tabContent);
           }
         }).on('keydown.zf.accordion', function(e){
+<<<<<<< HEAD
+          Foundation.Keyboard.handleKey(e, _this, {
+=======
           Foundation.Keyboard.handleKey(e, 'Accordion', {
+>>>>>>> f6c263a5bcc6ec3291fe70251c1123589d95ed5b
             toggle: function() {
               _this.toggle($tabContent);
             },
@@ -2253,6 +2693,15 @@ Foundation.Motion = Motion;
       .addBack()
       .parent().addClass('is-active');
 
+<<<<<<< HEAD
+    Foundation.Move(_this.options.slideSpeed, $target, function(){
+      $target.slideDown(_this.options.slideSpeed);
+    });
+
+    if(!firstTime){
+      Foundation._reflow(this.$element.attr('data-accordion'));
+    }
+=======
     // Foundation.Move(_this.options.slideSpeed, $target, function(){
       $target.slideDown(_this.options.slideSpeed);
     // });
@@ -2260,6 +2709,7 @@ Foundation.Motion = Motion;
     // if(!firstTime){
     //   Foundation._reflow(this.$element.attr('data-accordion'));
     // }
+>>>>>>> f6c263a5bcc6ec3291fe70251c1123589d95ed5b
     $('#' + $target.attr('aria-labelledby')).attr({
       'aria-expanded': true,
       'aria-selected': true
@@ -2286,9 +2736,15 @@ Foundation.Motion = Motion;
       return;
     }
 
+<<<<<<< HEAD
+    Foundation.Move(this.options.slideSpeed, $target, function(){
+      $target.slideUp(_this.options.slideSpeed);
+    });
+=======
     // Foundation.Move(this.options.slideSpeed, $target, function(){
       $target.slideUp(_this.options.slideSpeed);
     // });
+>>>>>>> f6c263a5bcc6ec3291fe70251c1123589d95ed5b
 
     $target.attr('aria-hidden', true)
            .parent().removeClass('is-active');
@@ -2345,7 +2801,11 @@ Foundation.Motion = Motion;
 
     this._init();
 
+<<<<<<< HEAD
+    Foundation.registerPlugin(this);
+=======
     Foundation.registerPlugin(this, 'AccordionMenu');
+>>>>>>> f6c263a5bcc6ec3291fe70251c1123589d95ed5b
     Foundation.Keyboard.register('AccordionMenu', {
       'ENTER': 'toggle',
       'SPACE': 'toggle',
@@ -2460,7 +2920,11 @@ Foundation.Motion = Motion;
           return;
         }
       });
+<<<<<<< HEAD
+      Foundation.Keyboard.handleKey(e, _this, {
+=======
       Foundation.Keyboard.handleKey(e, 'AccordionMenu', {
+>>>>>>> f6c263a5bcc6ec3291fe70251c1123589d95ed5b
         open: function() {
           if ($target.is(':hidden')) {
             _this.down($target);
@@ -2607,7 +3071,11 @@ Foundation.Motion = Motion;
 
     this._init();
 
+<<<<<<< HEAD
+    Foundation.registerPlugin(this);
+=======
     Foundation.registerPlugin(this, 'Drilldown');
+>>>>>>> f6c263a5bcc6ec3291fe70251c1123589d95ed5b
     Foundation.Keyboard.register('Drilldown', {
       'ENTER': 'open',
       'SPACE': 'open',
@@ -2648,7 +3116,11 @@ Foundation.Motion = Motion;
   Drilldown.prototype._init = function(){
     this.$submenuAnchors = this.$element.find('li.has-submenu');
     this.$submenus = this.$submenuAnchors.children('[data-submenu]');
+<<<<<<< HEAD
+    this.$menuItems = this.$element.find('li:visible').not('.js-drilldown-back').attr('role', 'menuitem');
+=======
     this.$menuItems = this.$element.find('li').not('.js-drilldown-back').attr('role', 'menuitem');
+>>>>>>> f6c263a5bcc6ec3291fe70251c1123589d95ed5b
 
     this._prepareMenu();
 
@@ -2742,7 +3214,11 @@ Foundation.Motion = Motion;
           return;
         }
       });
+<<<<<<< HEAD
+      Foundation.Keyboard.handleKey(e, _this, {
+=======
       Foundation.Keyboard.handleKey(e, 'Drilldown', {
+>>>>>>> f6c263a5bcc6ec3291fe70251c1123589d95ed5b
         next: function() {
           if ($element.is(_this.$submenuAnchors)) {
             _this._show($element);
@@ -2924,7 +3400,11 @@ Foundation.Motion = Motion;
     this.options = $.extend({}, Dropdown.defaults, this.$element.data(), options);
     this._init();
 
+<<<<<<< HEAD
+    Foundation.registerPlugin(this);
+=======
     Foundation.registerPlugin(this, 'Dropdown');
+>>>>>>> f6c263a5bcc6ec3291fe70251c1123589d95ed5b
     Foundation.Keyboard.register('Dropdown', {
       'ENTER': 'open',
       'SPACE': 'open',
@@ -2982,6 +3462,9 @@ Foundation.Motion = Motion;
      * @option
      * @example true
      */
+<<<<<<< HEAD
+    autoFocus: false
+=======
     autoFocus: false,
     /**
      * Allows a click on the body to close the dropdown.
@@ -2989,6 +3472,7 @@ Foundation.Motion = Motion;
      * @example true
      */
     closeOnClick: false
+>>>>>>> f6c263a5bcc6ec3291fe70251c1123589d95ed5b
   };
   /**
    * Initializes the plugin by setting/checking options and attributes, adding helper variables, and saving the anchor.
@@ -3147,6 +3631,16 @@ Foundation.Motion = Motion;
       var $target = $(this),
         visibleFocusableElements = Foundation.Keyboard.findFocusable(_this.$element);
 
+<<<<<<< HEAD
+      Foundation.Keyboard.handleKey(e, _this, {
+        tab_forward: function() {
+          if (this.$element.find(':focus').is(visibleFocusableElements.eq(-1))) { // left modal downwards, setting focus to first element
+            if (this.options.trapFocus) { // if focus shall be trapped
+              visibleFocusableElements.eq(0).focus();
+              e.preventDefault();
+            } else { // if focus is not trapped, close dropdown on focus out
+              this.close();
+=======
       Foundation.Keyboard.handleKey(e, 'Dropdown', {
         tab_forward: function() {
           if (_this.$element.find(':focus').is(visibleFocusableElements.eq(-1))) { // left modal downwards, setting focus to first element
@@ -3155,16 +3649,26 @@ Foundation.Motion = Motion;
               e.preventDefault();
             } else { // if focus is not trapped, close dropdown on focus out
               _this.close();
+>>>>>>> f6c263a5bcc6ec3291fe70251c1123589d95ed5b
             }
           }
         },
         tab_backward: function() {
+<<<<<<< HEAD
+          if (this.$element.find(':focus').is(visibleFocusableElements.eq(0)) || this.$element.is(':focus')) { // left modal upwards, setting focus to last element
+            if (this.options.trapFocus) { // if focus shall be trapped
+              visibleFocusableElements.eq(-1).focus();
+              e.preventDefault();
+            } else { // if focus is not trapped, close dropdown on focus out
+              this.close();
+=======
           if (_this.$element.find(':focus').is(visibleFocusableElements.eq(0)) || _this.$element.is(':focus')) { // left modal upwards, setting focus to last element
             if (_this.options.trapFocus) { // if focus shall be trapped
               visibleFocusableElements.eq(-1).focus();
               e.preventDefault();
             } else { // if focus is not trapped, close dropdown on focus out
               _this.close();
+>>>>>>> f6c263a5bcc6ec3291fe70251c1123589d95ed5b
             }
           }
         },
@@ -3183,6 +3687,8 @@ Foundation.Motion = Motion;
     });
   };
   /**
+<<<<<<< HEAD
+=======
    * Adds an event handler to the body to close any dropdowns on a click.
    * @function
    * @private
@@ -3203,6 +3709,7 @@ Foundation.Motion = Motion;
           });
   };
   /**
+>>>>>>> f6c263a5bcc6ec3291fe70251c1123589d95ed5b
    * Opens the dropdown pane, and fires a bubbling event to close other dropdowns.
    * @function
    * @fires Dropdown#closeme
@@ -3229,7 +3736,10 @@ Foundation.Motion = Motion;
       }
     }
 
+<<<<<<< HEAD
+=======
     if(this.options.closeOnClick){ this._addBodyHandler(); }
+>>>>>>> f6c263a5bcc6ec3291fe70251c1123589d95ed5b
 
     /**
      * Fires once the dropdown is visible.
@@ -3320,7 +3830,11 @@ Foundation.Motion = Motion;
     Foundation.Nest.Feather(this.$element, 'dropdown');
     this._init();
 
+<<<<<<< HEAD
+    Foundation.registerPlugin(this);
+=======
     Foundation.registerPlugin(this, 'DropdownMenu');
+>>>>>>> f6c263a5bcc6ec3291fe70251c1123589d95ed5b
     Foundation.Keyboard.register('DropdownMenu', {
       'ENTER': 'open',
       'SPACE': 'open',
@@ -3572,7 +4086,11 @@ Foundation.Motion = Motion;
           });
         }
       }
+<<<<<<< HEAD
+      Foundation.Keyboard.handleKey(e, _this, functions);
+=======
       Foundation.Keyboard.handleKey(e, 'DropdownMenu', functions);
+>>>>>>> f6c263a5bcc6ec3291fe70251c1123589d95ed5b
 
     });
   };
@@ -3698,6 +4216,19 @@ Foundation.Motion = Motion;
    * @param {Object} element - jQuery object to add the trigger to.
    * @param {Object} options - Overrides to the default plugin settings.
    */
+<<<<<<< HEAD
+  function Equalizer(element, options) {
+    this.$element = element;
+    this.options  = $.extend({}, Equalizer.defaults, this.$element.data(), options);
+    this.$window  = $(window);
+    this.name     = 'equalizer';
+    this.attr     = 'data-equalizer';
+
+    this._init();
+    this._events();
+
+    Foundation.registerPlugin(this);
+=======
   function Equalizer(element, options){
     this.$element = element;
     this.options  = $.extend({}, Equalizer.defaults, this.$element.data(), options);
@@ -3705,6 +4236,7 @@ Foundation.Motion = Motion;
     this._init();
 
     Foundation.registerPlugin(this, 'Equalizer');
+>>>>>>> f6c263a5bcc6ec3291fe70251c1123589d95ed5b
   }
 
   /**
@@ -3718,6 +4250,13 @@ Foundation.Motion = Motion;
      */
     equalizeOnStack: true,
     /**
+<<<<<<< HEAD
+     * Amount of time, in ms, to debounce the size checking/equalization. Lower times mean smoother transitions/less performance on mobile.
+     * @option
+     * @example 50
+     */
+    throttleInterval: 50
+=======
      * Enable height equalization row by row.
      * @option
      * @example false
@@ -3729,12 +4268,19 @@ Foundation.Motion = Motion;
      * @example 'medium'
      */
     equalizeOn: ''
+>>>>>>> f6c263a5bcc6ec3291fe70251c1123589d95ed5b
   };
 
   /**
    * Initializes the Equalizer plugin and calls functions to get equalizer functioning on load.
    * @private
    */
+<<<<<<< HEAD
+  Equalizer.prototype._init = function() {
+    this._reflow();
+  };
+
+=======
   Equalizer.prototype._init = function(){
     var eqId = this.$element.attr('data-equalizer') || '';
     var $watched = this.$element.find('[data-equalizer-watch="' + eqId + '"]');
@@ -3771,10 +4317,23 @@ Foundation.Motion = Motion;
     this.isOn = false;
     this.$element.off('.zf.equalizer resizeme.zf.trigger');
   };
+>>>>>>> f6c263a5bcc6ec3291fe70251c1123589d95ed5b
   /**
    * Initializes events for Equalizer.
    * @private
    */
+<<<<<<< HEAD
+  Equalizer.prototype._events = function() {
+    var self = this;
+
+    this.$window
+      .off('.equalizer')
+      .on('resize.fndtn.equalizer', Foundation.util.throttle(function () {
+        self._reflow();
+      }, self.options.throttleInterval));
+  };
+
+=======
   Equalizer.prototype._events = function(){
     var _this = this;
     this._pauseEvents();
@@ -3805,17 +4364,87 @@ Foundation.Motion = Motion;
     }
     return tooSmall;
   }
+>>>>>>> f6c263a5bcc6ec3291fe70251c1123589d95ed5b
   /**
    * A noop version for the plugin
    * @private
    */
+<<<<<<< HEAD
+  Equalizer.prototype._killswitch = function() {
+=======
   Equalizer.prototype._killswitch = function(){
+>>>>>>> f6c263a5bcc6ec3291fe70251c1123589d95ed5b
     return;
   };
   /**
    * Calls necessary functions to update Equalizer upon DOM change
    * @private
    */
+<<<<<<< HEAD
+  Equalizer.prototype._reflow = function() {
+    var self = this;
+
+    $('[' + this.attr + ']').each(function() {
+      var $eqParent       = $(this),
+          adjustedHeights = [],
+          $images = $eqParent.find('img');
+
+      if ($images.length) {
+        Foundation.onImagesLoaded($images, function() {
+          adjustedHeights = self.getHeights($eqParent);
+          self.applyHeight($eqParent, adjustedHeights);
+        });
+      }
+      else {
+        adjustedHeights = self.getHeights($eqParent);
+        self.applyHeight($eqParent, adjustedHeights);
+      }
+    });
+  };
+  /**
+   * Finds the outer heights of children contained within an Equalizer parent and returns them in an array
+   * @param {Object} $eqParent A jQuery instance of an Equalizer container
+   * @returns {Array} heights An array of heights of children within Equalizer container
+   */
+  Equalizer.prototype.getHeights = function($eqParent) {
+    var eqGroupName = $eqParent.data('equalizer'),
+        eqGroup     = eqGroupName ? $eqParent.find('[' + this.attr + '-watch="' + eqGroupName + '"]:visible') : $eqParent.find('[' + this.attr + '-watch]:visible'),
+        heights;
+
+    eqGroup.height('inherit');
+    heights = eqGroup.map(function () { return $(this).outerHeight(false);}).get();
+    
+    return heights;
+  };
+  /**
+   * Changes the CSS height property of each child in an Equalizer parent to match the tallest
+   * @param {Object} $eqParent - A jQuery instance of an Equalizer container
+   * @param {array} heights - An array of heights of children within Equalizer container
+   * @fires Equalizer#preEqualized
+   * @fires Equalizer#postEqualized
+   */
+  Equalizer.prototype.applyHeight = function($eqParent, heights) {
+    var eqGroupName = $eqParent.data('equalizer'),
+        eqGroup     = eqGroupName ? $eqParent.find('['+this.attr+'-watch="'+eqGroupName+'"]:visible') : $eqParent.find('['+this.attr+'-watch]:visible'),
+        max         = Math.max.apply(null, heights);
+
+    /**
+     * Fires before the heights are applied
+     * @event Equalizer#preEqualized
+     */
+    $eqParent.trigger('preEqualized.zf.Equalizer');
+
+    // for now, apply the max height found in the array
+    for (var i = 0; i < eqGroup.length; i++) {
+      $(eqGroup[i]).css('height', max);
+    }
+
+    /**
+     * Fires when the heights have been applied
+     * @event Equalizer#postEqualized
+     */
+    $eqParent.trigger('postEqualized.zf.Equalizer');
+=======
   Equalizer.prototype._reflow = function(){
     if(!this.options.equalizeOnStack){
       if(this._isStacked()){
@@ -3939,16 +4568,21 @@ Foundation.Motion = Motion;
      * Fires when the heights have been applied
      */
      this.$element.trigger('postequalized.zf.equalizer');
+>>>>>>> f6c263a5bcc6ec3291fe70251c1123589d95ed5b
   };
   /**
    * Destroys an instance of Equalizer.
    * @function
    */
   Equalizer.prototype.destroy = function(){
+<<<<<<< HEAD
+    //TODO this.
+=======
     this._pauseEvents();
     this.$watched.css('height', 'auto');
 
     Foundation.unregisterPlugin(this);
+>>>>>>> f6c263a5bcc6ec3291fe70251c1123589d95ed5b
   };
 
   Foundation.plugin(Equalizer, 'Equalizer');
@@ -3988,7 +4622,11 @@ Foundation.Motion = Motion;
     this._init();
     this._events();
 
+<<<<<<< HEAD
+    Foundation.registerPlugin(this);
+=======
     Foundation.registerPlugin(this, 'Interchange');
+>>>>>>> f6c263a5bcc6ec3291fe70251c1123589d95ed5b
   }
 
   /**
@@ -4025,7 +4663,11 @@ Foundation.Motion = Motion;
    * @private
    */
   Interchange.prototype._events = function() {
+<<<<<<< HEAD
+    $(window).on('resize.fndtn.interchange', Foundation.util.throttle(this._reflow.bind(this), 50));
+=======
     $(window).on('resize.zf.interchange', Foundation.util.throttle(this._reflow.bind(this), 50));
+>>>>>>> f6c263a5bcc6ec3291fe70251c1123589d95ed5b
   };
 
   /**
@@ -4112,6 +4754,10 @@ Foundation.Motion = Motion;
     // Replacing images
     if (this.$element[0].nodeName === 'IMG') {
       this.$element.attr('src', path).load(function() {
+<<<<<<< HEAD
+        _this.$element.trigger('replaced.zf.interchange');
+=======
+>>>>>>> f6c263a5bcc6ec3291fe70251c1123589d95ed5b
         _this.currentPath = path;
       });
     }
@@ -4123,6 +4769,12 @@ Foundation.Motion = Motion;
     else {
       $.get(path, function(response) {
         _this.$element.html(response);
+<<<<<<< HEAD
+        _this.$element.trigger('replaced.zf.interchange');
+        _this.currentPath = path;
+      });
+    }
+=======
         $(response).foundation();
         _this.currentPath = path;
       });
@@ -4133,6 +4785,7 @@ Foundation.Motion = Motion;
      * @event Interchange#replaced
      */
     this.$element.trigger('replaced.zf.interchange');
+>>>>>>> f6c263a5bcc6ec3291fe70251c1123589d95ed5b
   };
   /**
    * Destroys an instance of interchange.
@@ -4173,7 +4826,11 @@ Foundation.Motion = Motion;
 
     this._init();
 
+<<<<<<< HEAD
+    Foundation.registerPlugin(this);
+=======
     Foundation.registerPlugin(this, 'Magellan');
+>>>>>>> f6c263a5bcc6ec3291fe70251c1123589d95ed5b
   }
 
   /**
@@ -4391,7 +5048,11 @@ function OffCanvas(element, options) {
   this._init();
   this._events();
 
+<<<<<<< HEAD
+  Foundation.registerPlugin(this);
+=======
   Foundation.registerPlugin(this, 'OffCanvas');
+>>>>>>> f6c263a5bcc6ec3291fe70251c1123589d95ed5b
 }
 
 OffCanvas.defaults = {
@@ -4446,6 +5107,9 @@ OffCanvas.defaults = {
    * TODO improve the regex testing for this.
    * @example reveal-for-large
    */
+<<<<<<< HEAD
+  revealClass: 'reveal-for-'
+=======
   revealClass: 'reveal-for-',
   /**
    * Triggers optional focus trapping when opening an offcanvas. Sets tabindex of [data-off-canvas-content] to -1 for accessibility purposes.
@@ -4453,6 +5117,7 @@ OffCanvas.defaults = {
    * @example true
    */
   trapFocus: false
+>>>>>>> f6c263a5bcc6ec3291fe70251c1123589d95ed5b
 };
 
 /**
@@ -4501,7 +5166,11 @@ OffCanvas.prototype._init = function() {
  * @private
  */
 OffCanvas.prototype._events = function() {
+<<<<<<< HEAD
+  this.$element.on({
+=======
   this.$element.off('.zf.trigger .zf.offcanvas').on({
+>>>>>>> f6c263a5bcc6ec3291fe70251c1123589d95ed5b
     'open.zf.trigger': this.open.bind(this),
     'close.zf.trigger': this.close.bind(this),
     'toggle.zf.trigger': this.toggle.bind(this),
@@ -4540,25 +5209,36 @@ OffCanvas.prototype._setMQChecker = function(){
 OffCanvas.prototype.reveal = function(isRevealed){
   var $closer = this.$element.find('[data-close]');
   if(isRevealed){
+<<<<<<< HEAD
+=======
     this.close();
     this.isRevealed = true;
+>>>>>>> f6c263a5bcc6ec3291fe70251c1123589d95ed5b
     // if(!this.options.forceTop){
     //   var scrollPos = parseInt(window.pageYOffset);
     //   this.$element[0].style.transform = 'translate(0,' + scrollPos + 'px)';
     // }
     // if(this.options.isSticky){ this._stick(); }
+<<<<<<< HEAD
+    if($closer.length){ $closer.hide(); }
+  }else{
+=======
     this.$element.off('open.zf.trigger toggle.zf.trigger');
     if($closer.length){ $closer.hide(); }
   }else{
     this.isRevealed = false;
+>>>>>>> f6c263a5bcc6ec3291fe70251c1123589d95ed5b
     // if(this.options.isSticky || !this.options.forceTop){
     //   this.$element[0].style.transform = '';
     //   $(window).off('scroll.zf.offcanvas');
     // }
+<<<<<<< HEAD
+=======
     this.$element.on({
       'open.zf.trigger': this.open.bind(this),
       'toggle.zf.trigger': this.toggle.bind(this)
     });
+>>>>>>> f6c263a5bcc6ec3291fe70251c1123589d95ed5b
     if($closer.length){
       $closer.show();
     }
@@ -4573,7 +5253,11 @@ OffCanvas.prototype.reveal = function(isRevealed){
  * @fires OffCanvas#opened
  */
 OffCanvas.prototype.open = function(event, trigger) {
+<<<<<<< HEAD
+  if (this.$element.hasClass('is-open')){ return; }
+=======
   if (this.$element.hasClass('is-open') || this.isRevealed){ return; }
+>>>>>>> f6c263a5bcc6ec3291fe70251c1123589d95ed5b
   var _this = this,
       $body = $(document.body);
   $('body').scrollTop(0);
@@ -4595,15 +5279,23 @@ OffCanvas.prototype.open = function(event, trigger) {
 
     _this.$element
       .addClass('is-open')
+<<<<<<< HEAD
+      .attr('aria-hidden', 'false')
+      .trigger('opened.zf.offcanvas');
+=======
+>>>>>>> f6c263a5bcc6ec3291fe70251c1123589d95ed5b
 
     // if(_this.options.isSticky){
     //   _this._stick();
     // }
   });
+<<<<<<< HEAD
+=======
   this.$element.attr('aria-hidden', 'false')
       .trigger('opened.zf.offcanvas');
 
 
+>>>>>>> f6c263a5bcc6ec3291fe70251c1123589d95ed5b
   if(trigger){
     this.$lastTrigger = trigger.attr('aria-expanded', 'true');
   }
@@ -4612,6 +5304,8 @@ OffCanvas.prototype.open = function(event, trigger) {
       _this.$element.find('a, button').eq(0).focus();
     });
   }
+<<<<<<< HEAD
+=======
   if(this.options.trapFocus){
     $('[data-off-canvas-content]').attr('tabindex', '-1');
     this._trapFocus();
@@ -4638,6 +5332,7 @@ OffCanvas.prototype._trapFocus = function(){
       }
     }
   });
+>>>>>>> f6c263a5bcc6ec3291fe70251c1123589d95ed5b
 };
 /**
  * Allows the offcanvas to appear sticky utilizing translate properties.
@@ -4661,6 +5356,21 @@ OffCanvas.prototype._trapFocus = function(){
 /**
  * Closes the off-canvas menu.
  * @function
+<<<<<<< HEAD
+ * @fires OffCanvas#closed
+ */
+OffCanvas.prototype.close = function() {
+  if(!this.$element.hasClass('is-open')){ return; }
+
+  var _this = this;
+
+   Foundation.Move(this.options.transitionTime, this.$element, function(){
+    $('[data-off-canvas-wrapper]').removeClass('is-off-canvas-open is-open-'+_this.options.position);
+
+    _this.$element.removeClass('is-open');
+    // Foundation._reflow();
+  });
+=======
  * @param {Function} cb - optional cb to fire after closure.
  * @fires OffCanvas#closed
  */
@@ -4674,6 +5384,7 @@ OffCanvas.prototype.close = function(cb) {
   _this.$element.removeClass('is-open');
     // Foundation._reflow();
   // });
+>>>>>>> f6c263a5bcc6ec3291fe70251c1123589d95ed5b
   this.$element.attr('aria-hidden', 'true')
     /**
      * Fires when the off-canvas menu opens.
@@ -4688,10 +5399,13 @@ OffCanvas.prototype.close = function(cb) {
   // }
 
   this.$lastTrigger.attr('aria-expanded', 'false');
+<<<<<<< HEAD
+=======
   if(this.options.trapFocus){
     $('[data-off-canvas-content]').removeAttr('tabindex');
   }
 
+>>>>>>> f6c263a5bcc6ec3291fe70251c1123589d95ed5b
 };
 
 /**
@@ -4727,11 +5441,15 @@ OffCanvas.prototype._handleKeyboard = function(event) {
  * @function
  */
 OffCanvas.prototype.destroy = function(){
+<<<<<<< HEAD
+  //TODO make this...
+=======
   this.close();
   this.$element.off('.zf.trigger .zf.offcanvas');
   this.$exiter.off('.zf.offcanvas');
 
   Foundation.unregisterPlugin(this);
+>>>>>>> f6c263a5bcc6ec3291fe70251c1123589d95ed5b
 };
 
 Foundation.plugin(OffCanvas, 'OffCanvas');
@@ -4751,7 +5469,11 @@ Foundation.plugin(OffCanvas, 'OffCanvas');
   /**
    * Creates a new instance of an orbit carousel.
    * @class
+<<<<<<< HEAD
+   * @param {jQuery} element - jQuery object to make into an accordion menu.
+=======
    * @param {jQuery} element - jQuery object to make into an Orbit Carousel.
+>>>>>>> f6c263a5bcc6ec3291fe70251c1123589d95ed5b
    * @param {Object} options - Overrides to the default plugin settings.
    */
   function Orbit(element, options){
@@ -4760,7 +5482,11 @@ Foundation.plugin(OffCanvas, 'OffCanvas');
 
     this._init();
 
+<<<<<<< HEAD
+    Foundation.registerPlugin(this);
+=======
     Foundation.registerPlugin(this, 'Orbit');
+>>>>>>> f6c263a5bcc6ec3291fe70251c1123589d95ed5b
     Foundation.Keyboard.register('Orbit', {
         'ltr': {
           'ARROW_RIGHT': 'next',
@@ -5050,7 +5776,11 @@ Foundation.plugin(OffCanvas, 'OffCanvas');
 
     this.$wrapper.add(this.$bullets).on('keydown.zf.orbit', function(e){
       // handle keyboard event with keyboard util
+<<<<<<< HEAD
+      Foundation.Keyboard.handleKey(e, _this, {
+=======
       Foundation.Keyboard.handleKey(e, 'Orbit', {
+>>>>>>> f6c263a5bcc6ec3291fe70251c1123589d95ed5b
         next: function() {
           _this.changeSlide(true);
         },
@@ -5208,7 +5938,11 @@ Foundation.plugin(OffCanvas, 'OffCanvas');
     this._init();
     this._events();
 
+<<<<<<< HEAD
+    Foundation.registerPlugin(this);
+=======
     Foundation.registerPlugin(this, 'ResponsiveMenu');
+>>>>>>> f6c263a5bcc6ec3291fe70251c1123589d95ed5b
   }
 
   ResponsiveMenu.defaults = {};
@@ -5327,7 +6061,11 @@ function ResponsiveToggle(element, options) {
   this._init();
   this._events();
 
+<<<<<<< HEAD
+  Foundation.registerPlugin(this);
+=======
   Foundation.registerPlugin(this, 'ResponsiveToggle');
+>>>>>>> f6c263a5bcc6ec3291fe70251c1123589d95ed5b
 }
 
 ResponsiveToggle.defaults = {
@@ -5435,7 +6173,11 @@ Foundation.plugin(ResponsiveToggle, 'ResponsiveToggle');
     this.options = $.extend({}, Reveal.defaults, this.$element.data(), options);
     this._init();
 
+<<<<<<< HEAD
+    Foundation.registerPlugin(this);
+=======
     Foundation.registerPlugin(this, 'Reveal');
+>>>>>>> f6c263a5bcc6ec3291fe70251c1123589d95ed5b
     Foundation.Keyboard.register('Reveal', {
       'ENTER': 'open',
       'SPACE': 'open',
@@ -5659,7 +6401,11 @@ Foundation.plugin(ResponsiveToggle, 'ResponsiveToggle');
   /**
    * Opens the modal controlled by `this.$anchor`, and closes all others by default.
    * @function
+<<<<<<< HEAD
+   * @fires Reveal#closeAll
+=======
    * @fires Reveal#closeme
+>>>>>>> f6c263a5bcc6ec3291fe70251c1123589d95ed5b
    * @fires Reveal#open
    */
   Reveal.prototype.open = function(){
@@ -5678,7 +6424,11 @@ Foundation.plugin(ResponsiveToggle, 'ResponsiveToggle');
         /**
          * Fires immediately before the modal opens.
          * Closes any other modals that are currently open
+<<<<<<< HEAD
+         * @event Reveal#closeAll
+=======
          * @event Reveal#closeme
+>>>>>>> f6c263a5bcc6ec3291fe70251c1123589d95ed5b
          */
         _this.$element.trigger('closeme.zf.reveal', _this.id);
       }
@@ -5740,11 +6490,19 @@ Foundation.plugin(ResponsiveToggle, 'ResponsiveToggle');
     }
     if(this.options.closeOnEsc){
       $(window).on('keydown.zf.reveal', function(e){
+<<<<<<< HEAD
+        Foundation.Keyboard.handleKey(e, _this, {
+          close: function() {
+            if (this.options.closeOnEsc) {
+              this.close();
+              this.$anchor.focus();
+=======
         Foundation.Keyboard.handleKey(e, 'Reveal', {
           close: function() {
             if (_this.options.closeOnEsc) {
               _this.close();
               _this.$anchor.focus();
+>>>>>>> f6c263a5bcc6ec3291fe70251c1123589d95ed5b
             }
           }
         });
@@ -5758,15 +6516,25 @@ Foundation.plugin(ResponsiveToggle, 'ResponsiveToggle');
     this.$element.on('keydown.zf.reveal', function(e) {
       var $target = $(this);
       // handle keyboard event with keyboard util
+<<<<<<< HEAD
+      Foundation.Keyboard.handleKey(e, _this, {
+        tab_forward: function() {
+          if (this.$element.find(':focus').is(_this.focusableElements.eq(-1))) { // left modal downwards, setting focus to first element
+=======
       Foundation.Keyboard.handleKey(e, 'Reveal', {
         tab_forward: function() {
           if (_this.$element.find(':focus').is(_this.focusableElements.eq(-1))) { // left modal downwards, setting focus to first element
+>>>>>>> f6c263a5bcc6ec3291fe70251c1123589d95ed5b
             _this.focusableElements.eq(0).focus();
             e.preventDefault();
           }
         },
         tab_backward: function() {
+<<<<<<< HEAD
+          if (this.$element.find(':focus').is(_this.focusableElements.eq(0)) || this.$element.is(':focus')) { // left modal upwards, setting focus to last element
+=======
           if (_this.$element.find(':focus').is(_this.focusableElements.eq(0)) || _this.$element.is(':focus')) { // left modal upwards, setting focus to last element
+>>>>>>> f6c263a5bcc6ec3291fe70251c1123589d95ed5b
             _this.focusableElements.eq(-1).focus();
             e.preventDefault();
           }
@@ -5777,6 +6545,15 @@ Foundation.plugin(ResponsiveToggle, 'ResponsiveToggle');
               _this.$anchor.focus();
             }, 1);
           } else if ($target.is(_this.focusableElements)) { // dont't trigger if acual element has focus (i.e. inputs, links, ...)
+<<<<<<< HEAD
+            this.open();
+          }
+        },
+        close: function() {
+          if (this.options.closeOnEsc) {
+            this.close();
+            this.$anchor.focus();
+=======
             _this.open();
           }
         },
@@ -5784,6 +6561,7 @@ Foundation.plugin(ResponsiveToggle, 'ResponsiveToggle');
           if (_this.options.closeOnEsc) {
             _this.close();
             _this.$anchor.focus();
+>>>>>>> f6c263a5bcc6ec3291fe70251c1123589d95ed5b
           }
         }
       });
@@ -5913,7 +6691,11 @@ Foundation.plugin(ResponsiveToggle, 'ResponsiveToggle');
 
     this._init();
 
+<<<<<<< HEAD
+    Foundation.registerPlugin(this);
+=======
     Foundation.registerPlugin(this, 'Slider');
+>>>>>>> f6c263a5bcc6ec3291fe70251c1123589d95ed5b
     Foundation.Keyboard.register('Slider', {
       'ltr': {
         'ARROW_RIGHT': 'increase',
@@ -6056,7 +6838,11 @@ Foundation.plugin(ResponsiveToggle, 'ResponsiveToggle');
     if(this.handles[1]){
       this.options.doubleSided = true;
       this.$handle2 = this.handles.eq(1);
+<<<<<<< HEAD
+      this.$input2 = this.inputs.length ? this.inputs.eq(1) : $('#' + this.$handle2.attr('aria-controls'));
+=======
       this.$input2 = this.inputs.length > 1 ? this.inputs.eq(1) : $('#' + this.$handle2.attr('aria-controls'));
+>>>>>>> f6c263a5bcc6ec3291fe70251c1123589d95ed5b
 
       if(!this.inputs[1]){
         this.inputs = this.inputs.add(this.$input2);
@@ -6133,8 +6919,12 @@ Foundation.plugin(ResponsiveToggle, 'ResponsiveToggle');
         css['min-' + hOrW] = dim;
         if(cb && typeof cb === 'function'){ cb(); }
       }else{
+<<<<<<< HEAD
+        location = (location < 100 ? location : 100) - (parseFloat(this.$handle[0].style.left) || this.options.end - location);
+=======
         var handleLeft = parseFloat(this.$handle[0].style.left);
         location = (location < 100 ? location : 100) - (!isNaN(handleLeft) ? handleLeft : this.options.end - location);
+>>>>>>> f6c263a5bcc6ec3291fe70251c1123589d95ed5b
         css['min-' + hOrW] = location + '%';
       }
     }
@@ -6305,7 +7095,11 @@ Foundation.plugin(ResponsiveToggle, 'ResponsiveToggle');
       var _$handle = $(this);
 
       // handle keyboard event with keyboard util
+<<<<<<< HEAD
+      Foundation.Keyboard.handleKey(e, _this, {
+=======
       Foundation.Keyboard.handleKey(e, 'Slider', {
+>>>>>>> f6c263a5bcc6ec3291fe70251c1123589d95ed5b
         decrease: function() {
           newValue = oldValue - _this.options.step;
         },
@@ -6396,13 +7190,21 @@ Foundation.plugin(ResponsiveToggle, 'ResponsiveToggle');
 
     this._init();
 
+<<<<<<< HEAD
+    Foundation.registerPlugin(this);
+=======
     Foundation.registerPlugin(this, 'Sticky');
+>>>>>>> f6c263a5bcc6ec3291fe70251c1123589d95ed5b
   }
   Sticky.defaults = {
     /**
      * Customizable container template. Add your own classes for styling and sizing.
      * @option
+<<<<<<< HEAD
+     * @example '<div data-sticky-container class="small-6 columns"></div>'
+=======
      * @example '&lt;div data-sticky-container class="small-6 columns"&gt;&lt;/div&gt;'
+>>>>>>> f6c263a5bcc6ec3291fe70251c1123589d95ed5b
      */
     container: '<div data-sticky-container></div>',
     /**
@@ -6469,6 +7271,10 @@ Foundation.plugin(ResponsiveToggle, 'ResponsiveToggle');
 
   /**
    * Initializes the sticky element by adding classes, getting/setting dimensions, breakpoints and attributes
+<<<<<<< HEAD
+   * Also triggered by Foundation._reflow
+=======
+>>>>>>> f6c263a5bcc6ec3291fe70251c1123589d95ed5b
    * @function
    * @private
    */
@@ -6489,6 +7295,17 @@ Foundation.plugin(ResponsiveToggle, 'ResponsiveToggle');
 
     this.scrollCount = this.options.checkEvery;
     this.isStuck = false;
+<<<<<<< HEAD
+    // console.log(this.options.anchor, this.options.topAnchor);
+    if(this.options.topAnchor !== ''){
+      this._parsePoints();
+      // console.log(this.points[0]);
+    }else{
+      this.$anchor = this.options.anchor ? $('#' + this.options.anchor) : $(document.body);
+    }
+
+
+=======
 
     if(this.options.anchor !== ''){
       this.$anchor = $('#' + this.options.anchor);
@@ -6496,6 +7313,7 @@ Foundation.plugin(ResponsiveToggle, 'ResponsiveToggle');
       this._parsePoints();
     }
 
+>>>>>>> f6c263a5bcc6ec3291fe70251c1123589d95ed5b
     this._setSizes(function(){
       _this._calc(false);
     });
@@ -6511,6 +7329,24 @@ Foundation.plugin(ResponsiveToggle, 'ResponsiveToggle');
         btm = this.options.btmAnchor,
         pts = [top, btm],
         breaks = {};
+<<<<<<< HEAD
+    for(var i = 0, len = pts.length; i < len && pts[i]; i++){
+      var pt;
+      if(typeof pts[i] === 'number'){
+        pt = pts[i];
+      }else{
+        var place = pts[i].split(':'),
+            anchor = $('#' + place[0]);
+
+        pt = anchor.offset().top;
+        if(place[1] && place[1].toLowerCase() === 'bottom'){
+          pt += anchor[0].getBoundingClientRect().height;
+        }
+      }
+      breaks[i] = pt;
+    }
+      // console.log(breaks);
+=======
     if(top && btm){
 
       for(var i = 0, len = pts.length; i < len && pts[i]; i++){
@@ -6532,6 +7368,7 @@ Foundation.plugin(ResponsiveToggle, 'ResponsiveToggle');
       breaks = {0: 1, 1: document.documentElement.scrollHeight};
     }
 
+>>>>>>> f6c263a5bcc6ec3291fe70251c1123589d95ed5b
     this.points = breaks;
     return;
   };
@@ -6542,11 +7379,27 @@ Foundation.plugin(ResponsiveToggle, 'ResponsiveToggle');
    * @param {String} id - psuedo-random id for unique scroll event listener.
    */
   Sticky.prototype._events = function(id){
+<<<<<<< HEAD
+    // console.log('called');
+    var _this = this,
+        scrollListener = 'scroll.zf.' + id;
+    if(this.isOn){ return; }
+    if(this.canStick){
+      this.isOn = true;
+      // this.$anchor.off('change.zf.sticky')
+      //             .on('change.zf.sticky', function(){
+      //               _this._setSizes(function(){
+      //                 _this._calc(false);
+      //               });
+      //             });
+
+=======
     var _this = this,
         scrollListener = this.scrollListener = 'scroll.zf.' + id;
     if(this.isOn){ return; }
     if(this.canStick){
       this.isOn = true;
+>>>>>>> f6c263a5bcc6ec3291fe70251c1123589d95ed5b
       $(window).off(scrollListener)
                .on(scrollListener, function(e){
                  if(_this.scrollCount === 0){
@@ -6583,6 +7436,10 @@ Foundation.plugin(ResponsiveToggle, 'ResponsiveToggle');
    */
   Sticky.prototype._pauseListeners = function(scrollListener){
     this.isOn = false;
+<<<<<<< HEAD
+    // this.$anchor.off('change.zf.sticky');
+=======
+>>>>>>> f6c263a5bcc6ec3291fe70251c1123589d95ed5b
     $(window).off(scrollListener);
 
     /**
@@ -6682,7 +7539,11 @@ Foundation.plugin(ResponsiveToggle, 'ResponsiveToggle');
       css[stickTo] = 0;
       css[notStuckTo] = anchorPt;
     }
+<<<<<<< HEAD
+    
+=======
 
+>>>>>>> f6c263a5bcc6ec3291fe70251c1123589d95ed5b
     css['left'] = '';
     this.isStuck = false;
     this.$element.removeClass('is-stuck is-at-' + stickTo)
@@ -6710,6 +7571,10 @@ Foundation.plugin(ResponsiveToggle, 'ResponsiveToggle');
         comp = window.getComputedStyle(this.$container[0]),
         pdng = parseInt(comp['padding-right'], 10);
 
+<<<<<<< HEAD
+    // console.log(this.$anchor);
+=======
+>>>>>>> f6c263a5bcc6ec3291fe70251c1123589d95ed5b
     if(this.$anchor && this.$anchor.length){
       this.anchorHeight = this.$anchor[0].getBoundingClientRect().height;
     }else{
@@ -6790,7 +7655,11 @@ Foundation.plugin(ResponsiveToggle, 'ResponsiveToggle');
                  .off('resizeme.zf.trigger');
 
     this.$anchor.off('change.zf.sticky');
+<<<<<<< HEAD
+    $(window).off('scroll.zf.sticky');
+=======
     $(window).off(this.scrollListener);
+>>>>>>> f6c263a5bcc6ec3291fe70251c1123589d95ed5b
 
     if(this.wasWrapped){
       this.$element.unwrap();
@@ -6833,7 +7702,11 @@ Foundation.plugin(ResponsiveToggle, 'ResponsiveToggle');
     this.options = $.extend({}, Tabs.defaults, this.$element.data(), options);
 
     this._init();
+<<<<<<< HEAD
+    Foundation.registerPlugin(this);
+=======
     Foundation.registerPlugin(this, 'Tabs');
+>>>>>>> f6c263a5bcc6ec3291fe70251c1123589d95ed5b
     Foundation.Keyboard.register('Tabs', {
       'ENTER': 'open',
       'SPACE': 'open',
@@ -6997,7 +7870,11 @@ Foundation.plugin(ResponsiveToggle, 'ResponsiveToggle');
       });
 
       // handle keyboard event with keyboard util
+<<<<<<< HEAD
+      Foundation.Keyboard.handleKey(e, _this, {
+=======
       Foundation.Keyboard.handleKey(e, 'Tabs', {
+>>>>>>> f6c263a5bcc6ec3291fe70251c1123589d95ed5b
         open: function() {
           $element.find('[role="tab"]').focus();
           _this._handleTabChange($element);
@@ -7143,7 +8020,11 @@ Foundation.plugin(ResponsiveToggle, 'ResponsiveToggle');
     this._init();
     this._events();
 
+<<<<<<< HEAD
+    Foundation.registerPlugin(this);
+=======
     Foundation.registerPlugin(this, 'Toggler');
+>>>>>>> f6c263a5bcc6ec3291fe70251c1123589d95ed5b
   }
 
   Toggler.defaults = {
@@ -7291,7 +8172,11 @@ Foundation.plugin(ResponsiveToggle, 'ResponsiveToggle');
     this.isClick = false;
     this._init();
 
+<<<<<<< HEAD
+    Foundation.registerPlugin(this);
+=======
     Foundation.registerPlugin(this, 'Tooltip');
+>>>>>>> f6c263a5bcc6ec3291fe70251c1123589d95ed5b
   }
 
   Tooltip.defaults = {
@@ -7347,7 +8232,11 @@ Foundation.plugin(ResponsiveToggle, 'ResponsiveToggle');
     /**
      * Custom template to be used to generate markup for tooltip.
      * @option
+<<<<<<< HEAD
+     * @example '<div class="tooltip"></div>'
+=======
      * @example '&lt;div class="tooltip"&gt;&lt;/div&gt;'
+>>>>>>> f6c263a5bcc6ec3291fe70251c1123589d95ed5b
      */
     template: '',
     /**
@@ -7641,7 +8530,11 @@ Foundation.plugin(ResponsiveToggle, 'ResponsiveToggle');
     this.$element
       .on('focus.zf.tooltip', function(e){
         isFocus = true;
+<<<<<<< HEAD
+        console.log(_this.isClick);
+=======
         // console.log(_this.isClick);
+>>>>>>> f6c263a5bcc6ec3291fe70251c1123589d95ed5b
         if(_this.isClick){
           return false;
         }else{

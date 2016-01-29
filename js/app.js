@@ -1,3 +1,6 @@
+<<<<<<< HEAD
+$(document).foundation();
+=======
 $(document).foundation();
 
 $(document).ready(function(){
@@ -136,3 +139,4 @@ $(document).ready(function(){
     }).click();
 });
 
+>>>>>>> f6c263a5bcc6ec3291fe70251c1123589d95ed5b
