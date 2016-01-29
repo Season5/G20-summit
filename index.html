@@ -5,6 +5,7 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
        <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
+    <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'></script>
     <title>G20 SUMMIT</title>
     <link rel="stylesheet" href="css/foundation.css" />
     <link rel="stylesheet" href="css/app1.css" />
@@ -147,12 +148,12 @@ Strengthening the System of Multilateral Treaties / Arms Trade Treaty</h5>
   <div class="row">
     <div class="medium-6 columns">
       <label>First name </label>
-        <input type="text" placeholder="First Name">
+        <input type="text" placeholder="First Name" id="fname">
      
     </div>
     <div class="medium-6 columns">
       <label>Second name</label>
-        <input type="text" placeholder="Second Name">
+        <input type="text" placeholder="Second Name" id="sname">
       
     </div>
   </div>
@@ -160,13 +161,13 @@ Strengthening the System of Multilateral Treaties / Arms Trade Treaty</h5>
 
   <div class="row">
     <div class="medium-6 columns">
-      <label>Phone neumber</label>
-        <input type="number" placeholder="Number">
+      <label>Phone number</label>
+        <input type="number" placeholder="Number" id="number">
       
     </div>
     <div class="medium-6 columns">
       <label>Email</label>
-        <input type="email" placeholder="Email">
+        <input type="email" placeholder="Email" id="email">
       
     </div>
   </div>
@@ -433,7 +434,7 @@ Strengthening the System of Multilateral Treaties / Arms Trade Treaty</h5>
 <label>
   Give ideas say hello
 </label>
-  <textarea placeholder="Your Message"></textarea>
+  <textarea placeholder="Your Message" id="messageInput"></textarea>
 
     </form> 
   </div>
@@ -471,7 +472,30 @@ Strengthening the System of Multilateral Treaties / Arms Trade Treaty</h5>
       </div>
 </div>
         
+      <footer>
+        G20 SUMMIT | 2016 ALL RIGHTS RESERVED
+      </footer>
       
+      
+      
+      
+   <script>
+      var myDataRef = new Firebase('https://g20-summit.firebaseio.com/');
+      $('#messageInput').keypress(function (e) {
+        if (e.keyCode == 13) {
+          var name = $('#fname').val();
+          var sname = $('#sname').val();
+            var number = $('#number').val();
+            var email = $('#email').val();
+            var gender = $('#checkbox1').val();
+            var gender = $('#checkbox2').val();
+            var country = $('#country').val();
+          var text = $('#messageInput').val(); 
+          myDataRef.push({fname: fname, sname: sname, number: number, email: email, gender: checkbox1, gender: checkbox2, country: country, text: text});
+          $('#messageInput').val('');
+        }
+      });
+</script>
       
       
 
