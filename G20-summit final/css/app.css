@@ -75,3 +75,12 @@ p {
 }
 
 /*end of something new*/
+
+
+.header{
+    background-image: url(../img/frozen_wave-wide.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100vh;
+    
+}
