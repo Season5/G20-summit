@@ -154,3 +154,10 @@ div {
     display: block;
 }
 
+
+.para p{
+     color: #000;
+        padding: 5%;
+    font-size: .9em;
+}
+
