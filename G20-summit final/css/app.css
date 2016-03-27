@@ -76,7 +76,7 @@ h6{
 
 
 
-/*
+
 .schedule section {
     background-image: none;
 }
@@ -111,14 +111,14 @@ a {
     color: #c42f37;
     cursor: pointer;
     text-decoration: none;
-}*/
+}
 
 
 
 
 .day {
     width: 20%;
-    height: 801px;
+    height: 420px;
     margin: 0;
     float: left;
     position: relative;
@@ -127,3 +127,30 @@ a {
 .day_alt {
     background: rgba(0,0,0,0.04);
 }
+
+
+.day a span {
+    padding: 12px 13px;
+    display: block;
+    line-height: 21px;
+}
+
+
+.day a.tba {
+    background: #e0e0e0;
+    color: #777;
+    cursor: default;
+    border-color: #d0d0d0;
+}
+
+
+::selection {
+    background: #191818;
+    color: #fff;
+    text-shadow: none;
+}
+
+div {
+    display: block;
+}
+
