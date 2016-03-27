@@ -112,3 +112,18 @@ a {
     cursor: pointer;
     text-decoration: none;
 }*/
+
+
+
+
+.day {
+    width: 20%;
+    height: 801px;
+    margin: 0;
+    float: left;
+    position: relative;
+}
+
+.day_alt {
+    background: rgba(0,0,0,0.04);
+}
