@@ -29,58 +29,31 @@ end of about section
 */
 
 
-
-
-/*something new*/
-
-
-body {
-
-	-webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-rendering: optimizeLegibility;
-}
-
-.section {
-	height: 100vh;
-	margin: 0;
-	padding: 0 1.5em;
-	box-sizing: border-box;
-	overflow: auto;
-    justify-content: flex-start;
-    align-content: center;
-    align-items: center;
-}
-
-.section__content {
-	max-width: 700px;
-}
-.section__footer{
-     height: 7vh;
-}
-
-h1, h2 {
-	font-size: 3em;
-	margin: 0;
-	letter-spacing: -0.03em;
-	line-height: 1.1em;
-}
-
-p {
-	font-size: 1.25em;
-	margin: 0;
-	letter-spacing: -0.02em;
-	line-height: 1.23em;
-	opacity: 0.8;
-}
-
-/*end of something new*/
-
-
 .header{
     background-image: url(../img/frozen_wave-wide.jpg);
     background-repeat: no-repeat;
     background-size: cover;
     height: 100vh;
     
+}
+.heading{
+      color: #fff;
+        padding: 5%;
+    font-size: 3em;
+    text-align: center;
+}
+}
+.menu a{
+    padding: 5%;
+}
+
+p{
+    color: #fff;
+        padding: 5%;
+    font-size: 1.5em;
+}
+
+img{
+        padding: 5%;
+    font-size: 1.5em;
 }
